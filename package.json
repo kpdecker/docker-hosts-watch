@@ -1,0 +1,13 @@
+{
+  "name": "docker-hosts-watch",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin <kpdecker@gmail.com> (http://incaseofstairs.com/)",
+  "license": "MIT",
+  "dependencies": {
+  }
+}
