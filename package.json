@@ -9,5 +9,18 @@
   "author": "Kevin <kpdecker@gmail.com> (http://incaseofstairs.com/)",
   "license": "MIT",
   "dependencies": {
+  },
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "gulp": "^3.9.0",
+    "linoleum": "kpdecker/linoleum",
+    "linoleum-node": "kpdecker/linoleum-node",
+    "sinon": "^1.17.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "linoleum"
+    ],
+    "root": true
   }
 }
