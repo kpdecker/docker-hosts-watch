@@ -9,6 +9,8 @@
   "author": "Kevin <kpdecker@gmail.com> (http://incaseofstairs.com/)",
   "license": "MIT",
   "dependencies": {
+    "byline": "^4.2.1",
+    "dockerode": "^2.2.6"
   },
   "devDependencies": {
     "chai": "^3.3.0",
