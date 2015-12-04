@@ -7,7 +7,7 @@ export default function watchHosts(hostsFile, docker) {
   function update() {
     lookupHosts(docker)
         .then((hosts) => {
-          console.log('Hosts updated');
+          console.log(`Hosts updated\n${hosts}`);
           fs.writeFile(hostsFile, hosts, function(err) {
             if (err) {
               throw err;
