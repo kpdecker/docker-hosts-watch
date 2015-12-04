@@ -2,7 +2,9 @@
   "name": "docker-hosts-watch",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "bin": {
+    "docker-hosts-watch": "index.js"
+  },
   "scripts": {
     "test": "gulp"
   },
