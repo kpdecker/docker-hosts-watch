@@ -4,6 +4,19 @@ import fs from 'fs';
 import eventStream from './event-stream';
 
 export default function watchHosts(hostsFile, docker) {
+  function update() {
+    lookupHosts(docker)
+        .then((hosts) => {
+          console.log('Hosts updated');
+          fs.writeFile(hostsFile, hosts, function(err) {
+            if (err) {
+              throw err;
+            }
+          });
+        });
+  }
+
+  update();
   return eventStream(docker, (err, data) => {
     if (err) {
       throw err;
@@ -11,15 +24,7 @@ export default function watchHosts(hostsFile, docker) {
 
     if (data.status === 'start' || data.status === 'stop') {
       console.log(data.status, data.from);
-      lookupHosts(docker)
-          .then((hosts) => {
-            console.log('Hosts updated');
-            fs.writeFile(hostsFile, hosts, function(err) {
-              if (err) {
-                throw err;
-              }
-            });
-          });
+      update();
     }
   });
 }

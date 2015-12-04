@@ -6,7 +6,11 @@ import fs from 'fs';
 
 describe('watch-hosts', function() {
   describe('events', function() {
+    beforeEach(function() {
+      this.stub(fs, 'writeFile');
+    });
     it('should monitor start events', function(done) {
+      done = wrapDone(done);
       this.stub(EventStream, 'default', (docker, cb) => cb(undefined, {status: 'start'}));
       doIt({
         listContainers() {
@@ -15,6 +19,7 @@ describe('watch-hosts', function() {
       });
     });
     it('should monitor stop events', function(done) {
+      done = wrapDone(done);
       this.stub(EventStream, 'default', (docker, cb) => cb(undefined, {status: 'stop'}));
       doIt({
         listContainers() {
@@ -23,13 +28,16 @@ describe('watch-hosts', function() {
       });
     });
     it('should ignore other events', function(done) {
+      let counter = 0;
       this.stub(EventStream, 'default', (docker, cb) => {
         cb(undefined, {status: 'foo'});
         setTimeout(done, 0);
       });
       doIt({
         listContainers() {
-          throw new Error('should not run');
+          if (counter++) {
+            throw new Error('should not run again');
+          }
         }
       });
     });
@@ -41,6 +49,7 @@ describe('watch-hosts', function() {
     });
 
     it('should write hosts file', function(done) {
+      done = wrapDone(done);
       this.stub(fs, 'writeFile', (path, data, cb) => {
         expect(path).to.equal('path!');
         expect(data).to.eql('ip! host! bar bat\n');
@@ -50,6 +59,7 @@ describe('watch-hosts', function() {
       doIt();
     });
     it('should throw on write error', function(done) {
+      done = wrapDone(done);
       this.stub(fs, 'writeFile', (path, data, cb) => {
         expect(() => cb(new Error('fail'))).to.throw('fail');
         done();
@@ -59,6 +69,7 @@ describe('watch-hosts', function() {
   });
 
   it('should error in event monitor', function() {
+    this.stub(fs, 'writeFile');
     this.stub(EventStream, 'default', (docker, cb) => cb(new Error('fail')));
     expect(() => doIt({})).to.throw('fail');
   });
@@ -92,5 +103,13 @@ describe('watch-hosts', function() {
       },
       ...options
     });
+  }
+  function wrapDone(done) {
+    let counter = 0;
+    return (err) => {
+      if (err || counter++) {
+        done(err);
+      }
+    };
   }
 });
