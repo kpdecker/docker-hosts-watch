@@ -15,8 +15,8 @@ Watches for container start and stop and generates an up to date host file confi
 
 ### Route Generator
 
-Helper utility to generate the route table from the development machine to the docker-machine network.
+Helper utility to generate the route table commands from the development machine to the docker-machine network.
 
 ```
-  node index.js route
+  node index.js route $command
 ```

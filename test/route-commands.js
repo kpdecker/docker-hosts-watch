@@ -6,7 +6,7 @@ describe('route-commands', function() {
   it('should generate route add command', function() {
     this.stub(console, 'log');
 
-    routeCommands({
+    routeCommands('add', {
       modem: {host: 'host!'},
       getNetwork(net) {
         expect(net).to.equal('bridge');
@@ -28,7 +28,7 @@ describe('route-commands', function() {
   });
   it('should fail if missing ip', function() {
     expect(() => {
-      routeCommands({
+      routeCommands('', {
         modem: {host: undefined}
       });
     }).to.throw(/VM host/);

@@ -1,4 +1,4 @@
-export default function routeCommands(docker) {
+export default function routeCommands(command, docker) {
   if (!docker.modem.host) {
     throw new Error('route command must be run on docker-machine VM host');
   }
@@ -9,6 +9,6 @@ export default function routeCommands(docker) {
       throw err;
     }
 
-    console.log(`route add ${info.IPAM.Config[0].Subnet} ${docker.modem.host}`);
+    console.log(`route ${command} ${info.IPAM.Config[0].Subnet} ${docker.modem.host}`);
   });
 }
